@@ -1,4 +1,4 @@
-module github.com/william-powell/confluence
+module github.com/william-powell/terraform-provider-confluence
 
 go 1.19
 
