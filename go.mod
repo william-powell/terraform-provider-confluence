@@ -7,7 +7,8 @@ require (
 	github.com/hashicorp/terraform-plugin-framework v1.3.0
 	github.com/hashicorp/terraform-plugin-go v0.15.0
 	github.com/hashicorp/terraform-plugin-log v0.9.0
-	github.com/hashicorp/terraform-plugin-testing v1.2.0
+	github.com/hashicorp/terraform-plugin-sdk/v2 v2.26.1
+	golang.org/x/net v0.10.0
 )
 
 require (
@@ -38,7 +39,6 @@ require (
 	github.com/hashicorp/logutils v1.0.0 // indirect
 	github.com/hashicorp/terraform-exec v0.18.1 // indirect
 	github.com/hashicorp/terraform-json v0.16.0 // indirect
-	github.com/hashicorp/terraform-plugin-sdk/v2 v2.26.1 // indirect
 	github.com/hashicorp/terraform-registry-address v0.2.0 // indirect
 	github.com/hashicorp/terraform-svchost v0.0.1 // indirect
 	github.com/hashicorp/yamux v0.0.0-20181012175058-2f1d1f20f75d // indirect
@@ -63,8 +63,7 @@ require (
 	github.com/zclconf/go-cty v1.13.2 // indirect
 	golang.org/x/crypto v0.8.0 // indirect
 	golang.org/x/mod v0.10.0 // indirect
-	golang.org/x/net v0.9.0 // indirect
-	golang.org/x/sys v0.7.0 // indirect
+	golang.org/x/sys v0.8.0 // indirect
 	golang.org/x/text v0.9.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/genproto v0.0.0-20230110181048-76db0878b65f // indirect
