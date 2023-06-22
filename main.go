@@ -39,7 +39,7 @@ func main() {
 
 	opts := providerserver.ServeOpts{
 		// TODO: Update this string with the published name of your provider.
-		Address: "github.com/william-powell/confluence",
+		Address: "registry.terraform.io/william-powell/confluence",
 		Debug:   debug,
 	}
 
