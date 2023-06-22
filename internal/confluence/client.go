@@ -17,7 +17,7 @@ import (
 
 const (
 	contentDetailBaseUrlFormat string = "%s/wiki/api/v2/pages/%d?body-format=storage"
-	// Delete Version not Support in v1 API yet
+	// Delete Version not Support in v1 API yet.
 	contentVersionBaseUrlFormat string = "%s/wiki/rest/api/content/%d/version/1"
 	updateDeleteContentBaseUrl  string = "%s/wiki/api/v2/pages/%d"
 	newContentBaseUrlFormat     string = "%s/wiki/api/v2/pages"
@@ -52,8 +52,7 @@ func CreateNewPage(config Config, parentContentId int64, title string, body stri
 		return ContentDetail{}, err
 	}
 
-	jsonBody := []byte(newPageRequestJson)
-	bodyReader := bytes.NewReader(jsonBody)
+	bodyReader := bytes.NewReader(newPageRequestJson)
 
 	requestUrl := fmt.Sprintf(newContentBaseUrlFormat, config.baseUrl)
 
@@ -62,6 +61,11 @@ func CreateNewPage(config Config, parentContentId int64, title string, body stri
 	client := &http.Client{}
 
 	newReq, err := http.NewRequest("POST", requestUrl, bodyReader)
+
+	if err != nil {
+		return ContentDetail{}, err
+	}
+
 	newReq.Header.Add("Authorization", "Basic "+auth)
 	newReq.Header.Add("Content-Type", "application/json")
 	newResp, err := client.Do(newReq)
@@ -80,8 +84,12 @@ func CreateNewPage(config Config, parentContentId int64, title string, body stri
 
 	responseData, err := ioutil.ReadAll(newResp.Body)
 
+	if err != nil {
+		return ContentDetail{}, err
+	}
+
 	var contentDetail ContentDetail
-	json.Unmarshal(responseData, &contentDetail)
+	err = json.Unmarshal(responseData, &contentDetail)
 
 	if err != nil {
 		return ContentDetail{}, err
@@ -117,6 +125,10 @@ func GetContentDetailById(config Config, contentId int64) (ContentDetail, error)
 	client := &http.Client{}
 
 	req, err := http.NewRequest("GET", requestUrl, nil)
+	if err != nil {
+		return ContentDetail{}, err
+	}
+
 	req.Header.Add("Authorization", "Basic "+auth)
 	resp, err := client.Do(req)
 
@@ -126,8 +138,12 @@ func GetContentDetailById(config Config, contentId int64) (ContentDetail, error)
 
 	responseData, err := ioutil.ReadAll(resp.Body)
 
+	if err != nil {
+		return ContentDetail{}, err
+	}
+
 	var contentDetail ContentDetail
-	json.Unmarshal(responseData, &contentDetail)
+	err = json.Unmarshal(responseData, &contentDetail)
 
 	if err != nil {
 		log.Fatal(err)
@@ -162,8 +178,7 @@ func UpdateContentById(config Config, contentId int64, body string, removePrevio
 		return ContentDetail{}, err
 	}
 
-	jsonBody := []byte(updateRequestJson)
-	bodyReader := bytes.NewReader(jsonBody)
+	bodyReader := bytes.NewReader(updateRequestJson)
 
 	requestUrl := fmt.Sprintf(updateDeleteContentBaseUrl, config.baseUrl, contentId)
 
@@ -172,6 +187,11 @@ func UpdateContentById(config Config, contentId int64, body string, removePrevio
 	client := &http.Client{}
 
 	upReq, err := http.NewRequest("PUT", requestUrl, bodyReader)
+
+	if err != nil {
+		return ContentDetail{}, err
+	}
+
 	upReq.Header.Add("Authorization", "Basic "+auth)
 	upReq.Header.Add("Content-Type", "application/json")
 	upResp, err := client.Do(upReq)
@@ -185,7 +205,10 @@ func UpdateContentById(config Config, contentId int64, body string, removePrevio
 	}
 
 	if removePreviousVersions {
-		RemovePreviousVersions(config, contentId, 1)
+		err = RemovePreviousVersions(config, contentId, 1)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	return GetContentDetailById(config, contentId)
@@ -234,10 +257,15 @@ func RemovePreviousVersions(config Config, contentId int64, numberOfVersionsToKe
 			break
 		}
 
-		fmt.Println(fmt.Sprintf("Deleting version: %d - %s", versionsToDelete, deleteRequestUrl))
+		fmt.Printf("Deleting version: %d - %s\n", versionsToDelete, deleteRequestUrl)
 		client := &http.Client{}
 
 		deleteReq, err := http.NewRequest("DELETE", deleteRequestUrl, nil)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		deleteReq.Header.Add("Authorization", "Basic "+auth)
 		deleteResponse, err := client.Do(deleteReq)
 
@@ -263,6 +291,11 @@ func DeleteContentById(config Config, contentId int64) (http.Response, error) {
 	client := &http.Client{}
 
 	upReq, err := http.NewRequest("DELETE", requestUrl, nil)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	upReq.Header.Add("Authorization", "Basic "+auth)
 	upReq.Header.Add("Content-Type", "application/json")
 	upResp, err := client.Do(upReq)

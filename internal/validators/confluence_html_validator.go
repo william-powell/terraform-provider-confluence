@@ -18,7 +18,7 @@ type confluenceHtmlValidator struct {
 
 // Description describes the validation in plain text formatting.
 func (validator confluenceHtmlValidator) Description(_ context.Context) string {
-	return fmt.Sprintf("string is not valid confluence HTML.")
+	return "string is not valid confluence HTML."
 }
 
 // MarkdownDescription describes the validation in Markdown formatting.
@@ -42,7 +42,6 @@ func (v confluenceHtmlValidator) ValidateString(ctx context.Context, request val
 			"Invalid Confluence HTML Specified",
 			validHtmlError.Error()))
 	}
-	return
 }
 
 func isValidConfluenceHtmlInternal(htmlStr string) error {
