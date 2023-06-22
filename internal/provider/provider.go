@@ -142,38 +142,38 @@ func (p *confluenceProvider) Configure(ctx context.Context, req provider.Configu
 	// // If any of the expected configurations are missing, return
 	// // errors with provider-specific guidance.
 
-	// if baseurl == "" {
-	// 	resp.Diagnostics.AddAttributeError(
-	// 		path.Root("base_url"),
-	// 		"Missing Confluence API Base Url",
-	// 		"The provider is using a default value as there is a missing or empty value for the Inventory API host. "+
-	// 			"Set the host value in the configuration or use the INVENTORY_HOST environment variable. "+
-	// 			"If either is already set, ensure the value is not empty.",
-	// 	)
-	// 	baseurl = "unknown"
-	// }
+	if baseurl == "" {
+		resp.Diagnostics.AddAttributeError(
+			path.Root("base_url"),
+			"Missing Confluence API Base Url",
+			"The provider is missing or empty value for the Confluence API base_url. "+
+				"Set the Confluence API base value (e.g. https://<unique>.atlassian.net) in the configuration or use the CONFLUENCE_BASE_URL environment variable. "+
+				"If either is already set, ensure the value is not empty.",
+		)
+		baseurl = "unknown"
+	}
 
-	// if username == "" {
-	// 	resp.Diagnostics.AddAttributeWarning(
-	// 		path.Root("username"),
-	// 		"Missing Inventory API port (using default value: 8080)",
-	// 		"The provider is using a default value as there is a missing or empty value for the Inventory API host. "+
-	// 			"Set the host value in the configuration or use the INVENTORY_PORT environment variable. "+
-	// 			"If either is already set, ensure the value is not empty.",
-	// 	)
-	// 	username = "unknown"
-	// }
+	if username == "" {
+		resp.Diagnostics.AddAttributeError(
+			path.Root("username"),
+			"Missing Confluence API username",
+			"The provider is missing or empty value for the Confluence API username. "+
+				"Set the Confluence API user value in the configuration or use the CONFLUENCE_USERNAME environment variable. "+
+				"If either is already set, ensure the value is not empty.",
+		)
+		username = "unknown"
+	}
 
-	// if apikey == "" {
-	// 	resp.Diagnostics.AddAttributeWarning(
-	// 		path.Root("apikey"),
-	// 		"Missing Confluence API port (using default value: 8080)",
-	// 		"The provider is using a default value as there is a missing or empty value for the Inventory API host. "+
-	// 			"Set the host value in the configuration or use the INVENTORY_PORT environment variable. "+
-	// 			"If either is already set, ensure the value is not empty.",
-	// 	)
-	// 	apikey = "unknown"
-	// }
+	if apikey == "" {
+		resp.Diagnostics.AddAttributeError(
+			path.Root("api_key"),
+			"Missing Confluence API key",
+			"The provider is missing or empty value for the Confluence API key. "+
+				"Set the Confluence API key value in the configuration or use the CONFLUENCE_API_KEY environment variable. "+
+				"If either is already set, ensure the value is not empty.",
+		)
+		apikey = "unknown"
+	}
 
 	if resp.Diagnostics.HasError() {
 		return

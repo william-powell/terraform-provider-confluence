@@ -71,7 +71,7 @@ func (r *pageResource) Metadata(_ context.Context, req resource.MetadataRequest,
 // Schema defines the schema for the resource.
 func (r *pageResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Manage an page.",
+		Description: "Manages a Confluence Page. The versions of the page will be constrained to one, eliminating the need to manage versions. Changing the parent id will delete the existing page, and create a new page. Modifications directly in the Confluence UI of content will be overwritten on next apply. Changes in location or parent through the Confluence UI will yield unreliable results.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.Int64Attribute{
 				Description: "Identifier for this page.",
